@@ -1,0 +1,7 @@
+*.iml
+.idea
+./*.tfstate
+.terraform/
+proxy.zip
+terraform.tfstate
+terraform.tfstate.backup
