@@ -1,2 +1,2 @@
 #!/bin/bash
-apt-get install nginx-core
+apt-get install nginx -y

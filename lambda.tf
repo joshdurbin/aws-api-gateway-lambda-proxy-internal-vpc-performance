@@ -29,3 +29,12 @@ resource "aws_lambda_function" "proxy_lambda" {
     }
   }
 }
+
+resource "aws_lambda_permission" "apigateway_lambda" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.proxy_lambda.arn}"
+  principal = "apigateway.amazonaws.com"
+
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api.id}/*/*${aws_api_gateway_resource.root_proxy_resource.path}"
+}

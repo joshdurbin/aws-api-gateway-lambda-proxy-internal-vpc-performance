@@ -12,6 +12,12 @@ resource "aws_route" "associate_igw_with_vpc_route_table" {
   destination_cidr_block = "${var.zero_address_default_route_cidr}"
 }
 
+resource "aws_subnet" "nat" {
+  vpc_id = "${aws_vpc.load_test_vpc.id}"
+  cidr_block = "${var.nat_subnet_cidr}"
+  availability_zone = "us-west-2a"
+}
+
 resource "aws_subnet" "elb" {
   vpc_id = "${aws_vpc.load_test_vpc.id}"
   cidr_block = "${var.elb_subnet_cidr}"
@@ -29,5 +35,12 @@ resource "aws_subnet" "lambda" {
 
   vpc_id = "${aws_vpc.load_test_vpc.id}"
   cidr_block = "${var.lambda_subnet_cidr}"
+  availability_zone = "us-west-2a"
+}
+
+resource "aws_subnet" "persistence" {
+
+  vpc_id = "${aws_vpc.load_test_vpc.id}"
+  cidr_block = "${var.persistence_cidr}"
   availability_zone = "us-west-2a"
 }

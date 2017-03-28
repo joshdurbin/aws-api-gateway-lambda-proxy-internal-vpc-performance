@@ -3,6 +3,27 @@ resource "aws_key_pair" "keys_to_the_castles" {
   public_key = "${file("~/.ssh/id_rsa.pub")}"
 }
 
+resource "aws_security_group" "persistence" {
+
+  name = "persistence"
+  description = "Governs the ELB traffic"
+  vpc_id = "${aws_vpc.load_test_vpc.id}"
+
+  ingress {
+    protocol = "tcp"
+    from_port = 6379
+    to_port = 6379
+    cidr_blocks = ["${var.lambda_subnet_cidr}"]
+  }
+
+  egress {
+    protocol = "-1"
+    from_port = 0
+    to_port = 0
+    cidr_blocks = ["${var.zero_address_default_route_cidr}"]
+  }
+}
+
 resource "aws_security_group" "elb" {
 
   name = "elb"

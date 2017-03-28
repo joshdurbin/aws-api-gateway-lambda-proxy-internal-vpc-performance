@@ -1,9 +1,17 @@
+variable "nat_subnet_cidr" {
+  default = "10.0.4.0/24"
+}
+
 variable "elb_subnet_cidr" {
   default = "10.0.0.0/24"
 }
 
 variable "webserver_subnet_cidr" {
   default = "10.0.1.0/24"
+}
+
+variable "persistence_cidr" {
+  default = "10.0.3.0/24"
 }
 
 variable "lambda_subnet_cidr" {
