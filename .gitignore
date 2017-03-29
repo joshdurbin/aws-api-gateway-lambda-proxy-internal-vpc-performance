@@ -3,5 +3,6 @@
 ./*.tfstate
 .terraform/
 proxy.zip
+auth_proxy_lambda.zip
 terraform.tfstate
 terraform.tfstate.backup

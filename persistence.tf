@@ -1,4 +1,5 @@
 //resource "aws_elasticache_cluster" "auth_cache" {
+//
 //  cluster_id = "auth-cache"
 //  engine = "redis"
 //  engine_version = "3.2.4"
@@ -12,10 +13,27 @@
 //}
 //
 //resource "aws_elasticache_subnet_group" "auth_cache" {
-//  name = "auth-cache"
-//  subnet_ids = ["${aws_subnet.persistence.id}"]
+//  name = "auth_cache"
+//  subnet_ids = ["${aws_subnet.persistence_2a.id}", "${aws_subnet.persistence_2b.id}"]
 //}
 //
-//resource "aws_rds_cluster_instance" "auth_db" {
+//resource "aws_db_instance" "auth_db" {
 //
+//  name = "auth_db"
+//  engine = "postgres"
+//  engine_version = ""
+//  instance_class = "db.t2.micro"
+//  db_subnet_group_name = "${aws_db_subnet_group.auth_db.name}"
+//
+//  allocated_storage = 5
+//
+//  username = "wickedwitch"
+//  password = "__OfTheWest"
+//
+//  skip_final_snapshot = true
+//}
+//
+//resource "aws_db_subnet_group" "auth_db" {
+//  name = "auth_db"
+//  subnet_ids = ["${aws_subnet.persistence_2a.id}", "${aws_subnet.persistence_2b.id}"]
 //}

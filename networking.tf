@@ -1,5 +1,9 @@
 resource "aws_vpc" "load_test_vpc" {
   cidr_block = "${var.vpc_cidr}"
+
+  tags {
+    Name = "poc_vpc"
+  }
 }
 
 resource "aws_internet_gateway" "load_test_vpc_igw" {
@@ -13,15 +17,24 @@ resource "aws_route" "associate_igw_with_vpc_route_table" {
 }
 
 resource "aws_subnet" "nat" {
+
   vpc_id = "${aws_vpc.load_test_vpc.id}"
   cidr_block = "${var.nat_subnet_cidr}"
   availability_zone = "us-west-2a"
+
+  tags {
+    Name = "nat"
+  }
 }
 
 resource "aws_subnet" "elb" {
   vpc_id = "${aws_vpc.load_test_vpc.id}"
   cidr_block = "${var.elb_subnet_cidr}"
   availability_zone = "us-west-2a"
+
+  tags {
+    Name = "elb"
+  }
 }
 
 resource "aws_subnet" "webserver" {
@@ -38,9 +51,23 @@ resource "aws_subnet" "lambda" {
   availability_zone = "us-west-2a"
 }
 
-resource "aws_subnet" "persistence" {
+resource "aws_subnet" "authorizer_lambda" {
 
   vpc_id = "${aws_vpc.load_test_vpc.id}"
-  cidr_block = "${var.persistence_cidr}"
+  cidr_block = "${var.authorizer_lambda_subnet_cidr}"
   availability_zone = "us-west-2a"
 }
+
+//resource "aws_subnet" "persistence_2a" {
+//
+//  vpc_id = "${aws_vpc.load_test_vpc.id}"
+//  cidr_block = "${var.persistence_cidr_2a}"
+//  availability_zone = "us-west-2a"
+//}
+//
+//resource "aws_subnet" "persistence_2b" {
+//
+//  vpc_id = "${aws_vpc.load_test_vpc.id}"
+//  cidr_block = "${var.persistence_cidr_2b}"
+//  availability_zone = "us-west-2b"
+//}
