@@ -30,11 +30,20 @@ resource "aws_lambda_function" "proxy_lambda" {
   }
 }
 
-resource "aws_lambda_permission" "apigateway_lambda" {
-  statement_id  = "AllowExecutionFromAPIGateway"
+resource "aws_lambda_permission" "api_gateway_lambda_permission_root_resource" {
+  statement_id  = "AllowExecutionFromAPIGatewayRootResource"
   action = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.proxy_lambda.arn}"
   principal = "apigateway.amazonaws.com"
 
-  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api.id}/*/*${aws_api_gateway_resource.root_proxy_resource.path}"
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api.id}/*/*"
+}
+
+resource "aws_lambda_permission" "api_gateway_lambda_permission_proxy_resource" {
+  statement_id  = "AllowExecutionFromAPIGatewayProxyResource"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.proxy_lambda.arn}"
+  principal = "apigateway.amazonaws.com"
+
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api.id}/*/*${aws_api_gateway_resource.proxy_resource.path}"
 }

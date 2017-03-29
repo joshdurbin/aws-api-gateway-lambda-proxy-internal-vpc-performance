@@ -7,7 +7,7 @@ resource "aws_security_group" "elb" {
 
   name = "elb"
   description = "Governs ELB inbound/outbound traffic"
-  vpc_id = "${aws_vpc.load_test_vpc.id}"
+  vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
 
   ingress {
     protocol = "tcp"
@@ -33,7 +33,7 @@ resource "aws_security_group" "lambda" {
 
   name = "lambda"
   description = "Governs Lambda inbound/outbound traffic"
-  vpc_id = "${aws_vpc.load_test_vpc.id}"
+  vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
 
   ingress {
     protocol = "-1"
@@ -59,7 +59,7 @@ resource "aws_security_group" "webserver" {
 
   name = "webserver"
   description = "Governs webserver inbound/outbound traffic"
-  vpc_id = "${aws_vpc.load_test_vpc.id}"
+  vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
 
   ingress {
     protocol = "tcp"

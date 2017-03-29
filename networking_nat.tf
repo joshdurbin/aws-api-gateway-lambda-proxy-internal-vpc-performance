@@ -8,11 +8,11 @@ resource "aws_nat_gateway" "nat" {
 
 resource "aws_route_table" "route_zero_address_to_igw" {
 
-  vpc_id = "${aws_vpc.load_test_vpc.id}"
+  vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
 
   route {
     cidr_block = "${var.zero_address_default_route_cidr}"
-    gateway_id = "${aws_internet_gateway.load_test_vpc_igw.id}"
+    gateway_id = "${aws_internet_gateway.proxy_poc_igw.id}"
   }
 
   tags {
@@ -29,7 +29,7 @@ resource "aws_route_table_association" "associate_nat_with_igw" {
 
 resource "aws_route_table" "route_zero_address_to_nat" {
 
-  vpc_id = "${aws_vpc.load_test_vpc.id}"
+  vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
 
   route {
     cidr_block = "${var.zero_address_default_route_cidr}"
