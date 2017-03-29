@@ -37,32 +37,6 @@ resource "aws_lambda_function" "proxy_lambda" {
   }
 }
 
-//resource "aws_lambda_function" "proxy_lambda" {
-//
-//  filename = "${path.module}/auth_proxy_lambda.zip"
-//  description = "Proxy lambda"
-//  function_name = "authorizer"
-//  role = "${aws_iam_role.proxy_lambda_role.arn}"
-//  handler = "proxy.lambda_handler"
-//  source_code_hash = "${data.archive_file.proxy_lambda.output_base64sha256}"
-//  runtime = "python2.7"
-//  timeout = 10
-//
-//  vpc_config {
-//    subnet_ids = ["${aws_subnet.authorizer_lambda.id}"]
-//    security_group_ids = ["${aws_security_group.authorizer_lambda.id}"]
-//  }
-//
-//  environment {
-//
-//    variables {
-//
-//      //postgres_rds_ip = "${aws_instance.webserver.private_ip}"
-//      //redis_ip =
-//    }
-//  }
-//}
-
 resource "aws_lambda_permission" "apigateway_lambda" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action = "lambda:InvokeFunction"

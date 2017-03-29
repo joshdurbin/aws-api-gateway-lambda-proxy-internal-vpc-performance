@@ -25,6 +25,11 @@ resource "aws_elb" "elb" {
   idle_timeout = 60
   connection_draining = true
   connection_draining_timeout = 300
+
+  tags {
+    Name = "public-elb"
+    managed-by-terraform = 1
+  }
 }
 
 resource "aws_instance" "webserver" {
@@ -41,4 +46,9 @@ resource "aws_instance" "webserver" {
     volume_size = 8
   }
 
+  tags {
+
+    Name = "private-webserver"
+    managed-by-terraform = 1
+  }
 }

@@ -10,18 +10,6 @@ variable "webserver_subnet_cidr" {
   default = "10.0.1.0/24"
 }
 
-//variable "persistence_cidr_2a" {
-//  default = "10.0.10.0/24"
-//}
-//
-//variable "persistence_cidr_2b" {
-//  default = "10.0.11.0/24"
-//}
-
-variable "authorizer_lambda_subnet_cidr" {
-  default = "10.0.5.0/24"
-}
-
 variable "lambda_subnet_cidr" {
   default = "10.0.2.0/24"
 }

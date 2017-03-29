@@ -31,10 +31,3 @@ resource "aws_api_gateway_deployment" "proxy_api_poc_deployment" {
   rest_api_id = "${aws_api_gateway_rest_api.proxy_api.id}"
   stage_name  = "poc"
 }
-
-//resource "aws_api_gateway_authorizer" "proxy_poc_authorizer" {
-//  name = "proxy-poc-authorizer"
-//  rest_api_id = "${aws_api_gateway_rest_api.proxy_api.id}"
-//  authorizer_uri = ""
-//  authorizer_credentials = "${aws_iam_role.proxy_auth_lambda_role.arn}"
-//}
