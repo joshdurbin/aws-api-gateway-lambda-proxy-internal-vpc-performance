@@ -5,6 +5,25 @@ data "archive_file" "proxy_lambda" {
   output_path = "${path.module}/proxy.zip"
 }
 
+data "archive_file" "authorizer_lambda" {
+
+  type = "zip"
+  source_file = "${path.module}/authorizer.py"
+  output_path = "${path.module}/authorizer.zip"
+}
+
+resource "aws_lambda_function" "authorizer_lambda" {
+
+  filename = "${path.module}/authorizer.zip"
+  description = "Authorizer lambda"
+  function_name = "authorizer"
+  role = "${aws_iam_role.proxy_lambda_role.arn}"
+  handler = "authorizer.lambda_handler"
+  source_code_hash = "${data.archive_file.authorizer_lambda.output_base64sha256}"
+  runtime = "python2.7"
+  timeout = 2
+}
+
 resource "aws_lambda_function" "proxy_lambda" {
 
   filename = "${path.module}/proxy.zip"
@@ -14,7 +33,7 @@ resource "aws_lambda_function" "proxy_lambda" {
   handler = "proxy.lambda_handler"
   source_code_hash = "${data.archive_file.proxy_lambda.output_base64sha256}"
   runtime = "python2.7"
-  timeout = 10
+  timeout = 30
 
   vpc_config {
     subnet_ids = ["${aws_subnet.lambda.id}"]

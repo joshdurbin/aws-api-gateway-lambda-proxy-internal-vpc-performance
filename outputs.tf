@@ -1,5 +1,5 @@
 output "elb_endpoint" {
-  value = "${aws_elb.elb.dns_name}"
+  value = "http://${aws_elb.elb.dns_name}"
 }
 
 output "api_gateway_endpoint" {
