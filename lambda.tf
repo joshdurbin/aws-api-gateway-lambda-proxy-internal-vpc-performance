@@ -5,13 +5,6 @@ data "archive_file" "proxy_lambda" {
   output_path = "${path.module}/proxy.zip"
 }
 
-data "archive_file" "auth_proxy_lambda" {
-
-  type = "zip"
-  source_dir = "${path.module}/auth_proxy_lambda"
-  output_path = "${path.module}/auth_proxy_lambda.zip"
-}
-
 resource "aws_lambda_function" "proxy_lambda" {
 
   filename = "${path.module}/proxy.zip"
