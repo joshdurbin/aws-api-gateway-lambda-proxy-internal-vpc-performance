@@ -28,12 +28,6 @@ data "aws_iam_policy_document" "api_gateway_lambda_invocation_role" {
   }
 }
 
-resource "aws_iam_role" "api_gateway_lambda_invocation_role" {
-
-  name = "api_gateway_lambda_invocation_role"
-  assume_role_policy = "${data.aws_iam_policy_document.api_gateway_lambda_invocation_role.json}"
-}
-
 resource "aws_iam_role_policy_attachment" "attach_vpc_access" {
   role = "${aws_iam_role.proxy_lambda_role.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
