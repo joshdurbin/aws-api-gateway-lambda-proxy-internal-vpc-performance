@@ -29,8 +29,3 @@ variable "vpc_cidr" {
 variable "zero_address_default_route_cidr" {
   default = "0.0.0.0/0"
 }
-
-variable "enable_authorizer" {
-  default = false
-}
-

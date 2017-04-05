@@ -38,19 +38,3 @@ resource "aws_iam_role" "api_gateway_execute_authorizer" {
   name = "api_gateway_execute_authorizer"
   assume_role_policy = "${data.aws_iam_policy_document.api_gateway_lambda_invocation_role.json}"
 }
-
-data "aws_iam_policy_document" "api_gateway_authorizer_invocation" {
-
-  statement {
-
-    actions = [ "lambda:InvokeFunction" ]
-    resources = [ "${aws_lambda_function.authorizer_lambda.arn}" ]
-  }
-}
-
-resource "aws_iam_role_policy" "api_gateway_authorizer_invocation" {
-  name = "default"
-  role = "${aws_iam_role.api_gateway_execute_authorizer.id}"
-
-  policy = "${data.aws_iam_policy_document.api_gateway_authorizer_invocation.json}"
-}

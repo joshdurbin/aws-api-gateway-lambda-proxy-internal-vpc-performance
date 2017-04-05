@@ -1,4 +1,4 @@
-resource "aws_elb" "elb" {
+resource "aws_elb" "public_elb" {
 
   name = "public-elb"
   subnets = ["${aws_subnet.elb.id}"]
@@ -11,20 +11,7 @@ resource "aws_elb" "elb" {
     lb_protocol = "http"
   }
 
-  health_check {
-    healthy_threshold = 2
-    unhealthy_threshold = 3
-    timeout = 2
-    target = "HTTP:80/"
-    interval = 5
-  }
-
-  instances = ["${aws_instance.webserver.id}"]
-
-  cross_zone_load_balancing = false
-  idle_timeout = 60
-  connection_draining = true
-  connection_draining_timeout = 300
+  instances = ["${aws_instance.private_webserver.id}"]
 
   tags {
     Name = "public-elb"
@@ -32,7 +19,7 @@ resource "aws_elb" "elb" {
   }
 }
 
-resource "aws_instance" "webserver" {
+resource "aws_instance" "private_webserver" {
 
   ami = "${data.aws_ami.most_recent_ubuntu_xenial.id}"
   instance_type = "t2.nano"

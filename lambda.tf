@@ -5,25 +5,6 @@ data "archive_file" "proxy_lambda" {
   output_path = "${path.module}/proxy.zip"
 }
 
-data "archive_file" "authorizer_lambda" {
-
-  type = "zip"
-  source_file = "${path.module}/authorizer.py"
-  output_path = "${path.module}/authorizer.zip"
-}
-
-resource "aws_lambda_function" "authorizer_lambda" {
-
-  filename = "${path.module}/authorizer.zip"
-  description = "Authorizer lambda"
-  function_name = "authorizer"
-  role = "${aws_iam_role.proxy_lambda_role.arn}"
-  handler = "authorizer.lambda_handler"
-  source_code_hash = "${data.archive_file.authorizer_lambda.output_base64sha256}"
-  runtime = "python2.7"
-  timeout = 2
-}
-
 resource "aws_lambda_function" "proxy_lambda" {
 
   filename = "${path.module}/proxy.zip"
@@ -44,7 +25,7 @@ resource "aws_lambda_function" "proxy_lambda" {
 
     variables {
 
-      webserver_internal_ip = "${aws_instance.webserver.private_ip}"
+      webserver_internal_ip = "${aws_instance.private_webserver.private_ip}"
     }
   }
 }
@@ -55,7 +36,7 @@ resource "aws_lambda_permission" "api_gateway_lambda_permission_root_resource" {
   function_name = "${aws_lambda_function.proxy_lambda.arn}"
   principal = "apigateway.amazonaws.com"
 
-  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api.id}/*/*"
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api_lambda_passthru.id}/*/*"
 }
 
 resource "aws_lambda_permission" "api_gateway_lambda_permission_proxy_resource" {
@@ -64,5 +45,5 @@ resource "aws_lambda_permission" "api_gateway_lambda_permission_proxy_resource" 
   function_name = "${aws_lambda_function.proxy_lambda.arn}"
   principal = "apigateway.amazonaws.com"
 
-  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api.id}/*/*${aws_api_gateway_resource.proxy_resource.path}"
+  source_arn = "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current_identify.account_id}:${aws_api_gateway_rest_api.proxy_api_lambda_passthru.id}/*/*${aws_api_gateway_resource.proxy_api_lambda_passthru_proxy_resource.path}"
 }
