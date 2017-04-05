@@ -1,4 +1,5 @@
 *.iml
+load_test_results.log
 .idea
 ./*.tfstate
 .terraform/

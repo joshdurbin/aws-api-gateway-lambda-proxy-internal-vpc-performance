@@ -1,30 +1,20 @@
 #!/bin/bash
 
-ELB="http://public-elb-1171831284.us-west-2.elb.amazonaws.com"
-API_GW_LAMBDA="https://4z2sy32w8d.execute-api.us-west-2.amazonaws.com"
-API_GW_HTTP_PROXY="https://zefqgwbl3c.execute-api.us-west-2.amazonaws.com"
+ELB=$(terraform output -json | jq .elb_endpoint.value --raw-output)
+API_GW_LAMBDA=$(terraform output -json | jq .proxy_api_lambda_passthru_gateway_endpoint.value --raw-output)
+API_GW_HTTP_PROXY=$(terraform output -json | jq .proxy_api_to_elb_gateway_endpoint.value --raw-output)
 
-echo "____________ Testing ELB root ____________________________________________"
-siege $ELB --benchmark --time=10S
-echo "____________ Testing ELB /child/random.txt _______________________________"
-siege $ELB/child/random.txt --benchmark --time=10S
-echo "____________ Testing ELB /child/grandchild/random.txt ____________________"
-siege $ELB/child/grandchild/random.txt --benchmark --time=10S
+execute_load_test () {
+   echo "--------- Load testing: $1$2 ---------"
+   siege $1$2 --benchmark --time=10S --log=load_test_results.log --mark="Load testing: $1$2" --quiet
+}
 
-echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+execute_load_test_suite() {
+   execute_load_test $1
+   execute_load_test $1 "/child/random.txt"
+   execute_load_test $1 "/child/grandchild/random.txt"
+}
 
-echo "____________ Testing API Gateway Lambda Proxy root _______________________"
-siege $API_GW_LAMBDA/test --benchmark --time=10S
-echo "____________ Testing API Gateway Lambda Proxy /child/random.txt __________"
-siege $API_GW_LAMBDA/test/child/random.txt --benchmark --time=10S
-echo "____________ Testing API Gateway Lambda Proxy /child/grandchild/random.txt"
-siege $API_GW_LAMBDA/test/child/grandchild/random.txt --benchmark --time=10S
-
-echo "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-
-echo "____________ Testing API Gateway HTTP Proxy root _________________________"
-siege $API_GW_HTTP_PROXY/test  --benchmark --time=10S
-echo "____________ Testing API Gateway HTTP Proxy /child/random.txt ____________"
-siege $API_GW_HTTP_PROXY/test/child/random.txt --benchmark --time=10S
-echo "____________ Testing API Gateway HTTP Proxy /child/grandchild/random.txt _"
-siege $API_GW_HTTP_PROXY/test/child/grandchild/random.txt --benchmark --time=10S
+execute_load_test_suite $ELB
+execute_load_test_suite $API_GW_LAMBDA
+execute_load_test_suite $API_GW_HTTP_PROXY
