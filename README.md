@@ -16,22 +16,22 @@ For the ELB:
 
 | Endpoint                     | Trans Rate    | Avg. Response Time | Total |
 | ---------------------------- | ------------- | ------------------ | ----- |
-| /                            | 368.70        | 0.07               | 3687  |
-| /child/random.txt            | 381.86        | 0.07               | 3811  |
-| /child/grandchild/random.txt | 375.55        | 0.07               | 3748  |
+| /                            | 531.63        | 0.07               | 5295  |
+| /child/random.txt            | 538.48        | 0.07               | 5374  |
+| /child/grandchild/random.txt | 518.64        | 0.07               | 5176  |
 
 For the API Gateway Lambda passthru:
 
 | Endpoint                     | Trans Rate    | Avg. Response Time | Total |
 | ---------------------------- | ------------- | ------------------ | ----- |
-| /                            | 289.18        | 0.09               | 2886  |
-| /child/random.txt            | 283.47        | 0.09               | 2829  |
-| /child/grandchild/random.txt | 293.99        | 0.08               | 2934  |
+| /                            | 268.64        | 0.09               | 2681  |
+| /child/random.txt            | 270.24        | 0.09               | 2697  |
+| /child/grandchild/random.txt | 269.54        | 0.09               | 2690  |
 
 For the API Gateway HTTP Proxy:
 
 | Endpoint                     | Trans Rate    | Avg. Response Time | Total |
 | ---------------------------- | ------------- | ------------------ | ----- |
-| /                            | 295.89        | 0.08               | 2953  |
-| /child/random.txt            |               |                    |       |
-| /child/grandchild/random.txt |               |                    |       |
+| /                            | 285.77        | 0.08               | 2852  |
+| /child/random.txt            | 291.08        | 0.08               | 2905  |
+| /child/grandchild/random.txt | 283.77        | 0.08               | 2832  |
