@@ -12,7 +12,7 @@ The test can be found in the siege_load_test.sh file which, as the name of the f
 
 A crude snapshot of results looks like...
 
-For the ELB:
+For the ELB (10 seconds per request, pre-warmed):
 
 | Endpoint                     | Trans Rate    | Avg. Response Time | Total |
 | ---------------------------- | ------------- | ------------------ | ----- |
@@ -20,7 +20,7 @@ For the ELB:
 | /child/random.txt            | 538.48        | 0.07               | 5374  |
 | /child/grandchild/random.txt | 518.64        | 0.07               | 5176  |
 
-For the API Gateway Lambda passthru:
+For the API Gateway Lambda passthru (10 seconds per request, pre-warmed):
 
 | Endpoint                     | Trans Rate    | Avg. Response Time | Total |
 | ---------------------------- | ------------- | ------------------ | ----- |
@@ -28,7 +28,7 @@ For the API Gateway Lambda passthru:
 | /child/random.txt            | 270.24        | 0.09               | 2697  |
 | /child/grandchild/random.txt | 269.54        | 0.09               | 2690  |
 
-For the API Gateway HTTP Proxy:
+For the API Gateway HTTP Proxy (10 seconds per request, pre-warmed):
 
 | Endpoint                     | Trans Rate    | Avg. Response Time | Total |
 | ---------------------------- | ------------- | ------------------ | ----- |
