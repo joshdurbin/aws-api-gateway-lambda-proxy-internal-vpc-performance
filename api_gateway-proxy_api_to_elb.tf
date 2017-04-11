@@ -29,6 +29,10 @@ resource "aws_api_gateway_method" "proxy_api_to_elb_proxy_resource_method" {
   resource_id = "${aws_api_gateway_resource.proxy_api_to_elb_proxy_resource.id}"
   http_method = "ANY"
   authorization = "NONE"
+
+  request_parameters {
+    method.request.path.proxy = true
+  }
 }
 
 resource "aws_api_gateway_integration" "proxy_api_to_elb_proxy_resource_method_integration" {
@@ -38,6 +42,10 @@ resource "aws_api_gateway_integration" "proxy_api_to_elb_proxy_resource_method_i
   type = "HTTP_PROXY"
   uri = "http://${aws_elb.public_elb.dns_name}/{proxy}"
   integration_http_method = "${aws_api_gateway_method.proxy_api_to_elb_proxy_resource_method.http_method}"
+
+  request_parameters {
+    integration.request.path.proxy = "method.request.path.proxy"
+  }
 }
 
 resource "aws_api_gateway_deployment" "proxy_api_to_elb" {
