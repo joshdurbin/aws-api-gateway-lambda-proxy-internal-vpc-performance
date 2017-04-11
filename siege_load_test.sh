@@ -13,6 +13,7 @@ execute_load_test_suite() {
    execute_load_test $1
    execute_load_test $1 "/child/random.txt"
    execute_load_test $1 "/child/grandchild/random.txt"
+   execute_load_test $1 "/random_text_files.zip"
 }
 
 execute_load_test_suite $ELB
