@@ -1,17 +1,17 @@
 variable "nat_subnet_cidr" {
-  default = "10.0.4.0/24"
-}
-
-variable "elb_subnet_cidr" {
   default = "10.0.0.0/24"
 }
 
-variable "webserver_subnet_cidr" {
+variable "elb_subnet_cidr" {
   default = "10.0.1.0/24"
 }
 
-variable "lambda_subnet_cidr" {
+variable "webserver_subnet_cidr" {
   default = "10.0.2.0/24"
+}
+
+variable "lambda_subnet_cidr" {
+  default = "10.0.20.0/24" // 10.0.20.0/23 for 512 or 10.0.20.0/22 for 1024
 }
 
 variable "availability_zone" {
