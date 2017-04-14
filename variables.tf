@@ -10,12 +10,21 @@ variable "webserver_subnet_cidr" {
   default = "10.0.2.0/24"
 }
 
+variable "loadtest_subnet_cidr" {
+  default = "10.0.3.0/24"
+}
+
 variable "lambda_subnet_cidr" {
   default = "10.0.20.0/24" // 10.0.20.0/23 for 512 or 10.0.20.0/22 for 1024
 }
 
-variable "availability_zone" {
+variable "default_availability_zone" {
   default = "us-west-2a"
+}
+
+variable "availability_zones" {
+  type = "list"
+  default = ["us-west-2a", "us-west-2b"]
 }
 
 variable "region" {

@@ -54,12 +54,26 @@ resource "aws_subnet" "webserver" {
 
 resource "aws_subnet" "lambda" {
 
+  count = 2
+
   vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
-  cidr_block = "${var.lambda_subnet_cidr}"
-  availability_zone = "us-west-2a"
+  cidr_block = "${cidrsubnet(var.lambda_subnet_cidr, 1, count.index)}"
+  availability_zone = "${var.availability_zones[count.index]}"
 
   tags {
     Name = "lambda"
+    managed-by-terraform = 1
+  }
+}
+
+resource "aws_subnet" "loadtest" {
+
+  vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
+  cidr_block = "${var.loadtest_subnet_cidr}"
+  availability_zone = "us-west-2a"
+
+  tags {
+    Name = "loadtest"
     managed-by-terraform = 1
   }
 }

@@ -65,7 +65,7 @@ resource "aws_security_group" "webserver" {
     protocol = "tcp"
     from_port = 80
     to_port = 80
-    cidr_blocks = ["${aws_subnet.lambda.cidr_block}"]
+    cidr_blocks = ["${aws_subnet.lambda.*.cidr_block}"]
   }
 
   ingress {
@@ -75,10 +75,29 @@ resource "aws_security_group" "webserver" {
     cidr_blocks = ["${aws_subnet.elb.cidr_block}"]
   }
 
+  egress {
+    protocol = "-1"
+    from_port = 0
+    to_port = 0
+    cidr_blocks = ["${var.zero_address_default_route_cidr}"]
+  }
+
+  tags {
+    Name = "webserver"
+    managed-by-terraform = 1
+  }
+}
+
+resource "aws_security_group" "open_group" {
+
+  name = "open_group"
+  description = "Open in and out"
+  vpc_id = "${aws_vpc.proxy_poc_vpc.id}"
+
   ingress {
-    protocol = "tcp"
-    from_port = 22
-    to_port = 22
+    protocol = "-1"
+    from_port = 0
+    to_port = 0
     cidr_blocks = ["${var.zero_address_default_route_cidr}"]
   }
 

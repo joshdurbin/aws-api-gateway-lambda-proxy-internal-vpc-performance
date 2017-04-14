@@ -17,7 +17,7 @@ resource "aws_lambda_function" "proxy_lambda" {
   timeout = 30
 
   vpc_config {
-    subnet_ids = ["${aws_subnet.lambda.id}"]
+    subnet_ids = ["${aws_subnet.lambda.*.id}"]
     security_group_ids = ["${aws_security_group.lambda.id}"]
   }
 
