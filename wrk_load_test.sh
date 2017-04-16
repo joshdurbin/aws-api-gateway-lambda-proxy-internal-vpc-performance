@@ -6,7 +6,7 @@ API_GW_HTTP_PROXY=$(terraform output -json | jq .proxy_api_to_elb_gateway_endpoi
 
 execute_load_test () {
    echo "--------- Load testing: $1$2 ---------"
-   wrk --duration 15s --connections 100 --threads 25 $1$2
+   wrk --duration 30s --connections 50 --threads 25 $1$2
 }
 
 execute_load_test_suite() {
